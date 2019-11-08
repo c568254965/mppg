@@ -1,0 +1,34 @@
+server:
+  port: 31888
+  servlet:
+    context-path: /csrr
+
+
+# springboot整合postgres连接配制
+spring:
+  application:
+    name: csrr-consul-app
+  cloud:
+    consul:
+      host: 127.0.0.1
+      port: 8500
+      discovery:
+        service-name: csrr-consul
+        health-check-path: /csrr/checkForConsul
+
+
+  datasource:
+    url: jdbc:postgresql://127.0.0.1:5432/csrrtest
+    username: postgres
+    password: admin
+    driver-class-name: org.postgresql.Driver
+
+#mybatis-plus整合，加了表前缀的全局配制，加了类中与表中驼峰的映射，不加会查不出数据，因无法做表与类字段映射
+mybatis-plus:
+  #global-config:
+    #db-config:
+      #table-prefix: platform.
+  mapper-locations: classpath*:mapper/*Mapper.xml
+  type-aliases-package: com.csrr.mppg.repository.dto
+  configuration:
+    map-underscore-to-camel-case: true
